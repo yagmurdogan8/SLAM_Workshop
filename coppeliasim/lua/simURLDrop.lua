@@ -1,0 +1,3 @@
+local simURLDrop={}
+
+return simURLDrop
