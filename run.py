@@ -1,5 +1,6 @@
 """
 """
+# @ YD
 
 from __future__ import print_function
 from src.env    import VrepEnvironment
@@ -69,40 +70,67 @@ def loop(agent):
     lidar_data = agent.read_lidars()
 
     # Check if there are any obstacles in front of the robot
-    min_distance = min(lidar_data[:90] + lidar_data[-90:])
-    if min_distance < 0.3:  # Adjust threshold distance as needed
+    min_distance = min(lidar_data[:5] + lidar_data[-5:])
+    if min_distance < 0.3:  
         # If an obstacle is detected, rotate the robot randomly
+        print("Obstacle detected near...")
         random_angle = random.uniform(-math.pi/4, math.pi/4)  # Random angle between -45 and 45 degrees
         agent.change_velocity([math.cos(random_angle), math.sin(random_angle)])  # Rotate the robot
         time.sleep(0.1)  # Rotate for 0.1 seconds
-        agent.change_velocity([0, 0])  # Stop the robot
-        time.sleep(0.1)  # Add a short delay before moving backward
-        # agent.change_velocity([-7, -6])  # Move backward
-        # time.sleep(0.5)  # Move backward for 0.5 seconds
-        while min_distance < 0.3:  # While an obstacle is still detected
-            random_angle = random.uniform(-math.pi/6, math.pi/6)  # Random angle between -45 and 45 degrees
-            agent.change_velocity([math.cos(random_angle), math.sin(random_angle)])  # Rotate the robot
-            time.sleep(0.1)  # Rotate for 0.1 seconds
-            agent.change_velocity([-4, -2])  # Move backward
-            time.sleep(0.1)  # Move backward for 0.5 seconds
-            lidar_data = agent.read_lidars()
-            min_distance = min(lidar_data[:10] + lidar_data[-10:])
+        # agent.change_velocity([0, 0])  # Stop the robot
+        # time.sleep(0.1)  # Add a short delay before moving backward
+        print("Moving straight backwards...")
+        agent.change_velocity([-5, -5])  # Move backward
+        time.sleep(0.2)  # Move backward for 0.5 seconds
+        print("Moving straight forward...")
+        agent.change_velocity([5, 5])  # Move backward
+        time.sleep(0.2)  # Move backward for 0.5 seconds
+        # if min_distance < 0.1:
+        #     print("Robot got stuck somewhere...")
+        #     agent.change_velocity([-5, -5])  # Move forward
+        #     time.sleep(0.5)  # Move forward for 0.5 seconds
+        # elif agent.change_velocity == [0, 0]:
+        #     print("velocity hasnt changed")
+        #     agent.change_velocity([-5, -5])  # Move forward
+        #     time.sleep(0.5)  # Move forward for 0.1 seconds        
+       
+        # while min_distance < 0.3:  # While an obstacle is still detected
+        #     random_angle = random.uniform(-math.pi/6, math.pi/6)  # Random angle between -45 and 45 degrees
+        #     agent.change_velocity([math.cos(random_angle), math.sin(random_angle)])  # Rotate the robot
+        #     time.sleep(0.1)  # Rotate for 0.1 seconds
+        #     agent.change_velocity([-5, -3])  # Move backward
+        #     time.sleep(0.2)  # Move backward for 0.5 seconds
+        #     max_distance = max(lidar_data[:10] + lidar_data[-10:])
+        #     if max_distance > 5:
+        #         agent.change_velocity([8, 8])  # Move forward
+        #         time.sleep(0.1)  # Move forward for 0.1 seconds
+        #     else:
+        #         agent.change_velocity([2, 5])  # Move forward
+        #         time.sleep(0.1)  # Move forward for 0.1 seconds
         return
         
-        
+    
     # If no obstacle is detected, move forward
-    agent.change_velocity([5, 4.5])  # Move forward
-   # Define a threshold for the robot's speed
+    print("Moving forward...")
+    agent.change_velocity([5, 4])  # Move forward
+    # Define a threshold for the robot's speed
     SPEED_THRESHOLD = 0.1  # Adjust this threshold as needed
 
-    # Inside the loop function
     current_speed = agent.current_speed_API()
     if abs(current_speed[0]) < SPEED_THRESHOLD and abs(current_speed[1]) < SPEED_THRESHOLD:
         # Robot speed is close to zero, indicating that it has stopped
-        # Add your code here to handle the stopped condition
-        agent.change_velocity([-5, -4])  # Move backward
+        print("Faced an obstacle, Moving backward...")
+        agent.change_velocity([-5, -2])  # Move backward
         time.sleep(0.2)  # Move backward for 0.5 seconds
     
+    # max_dist = max(lidar_data[:10] + lidar_data[-10:])
+    # if max_dist > 4:
+    #     agent.change_velocity([8, 8])
+    #     time.sleep(0.4)
+    
+    # elif max_dist < 0.3:
+    #     agent.change_velocity([-5, -4])  # Move backward
+    #     time.sleep(0.2)
 #     if stuck_counter >= MAX_STUCK_TIME:
 #         # If the robot remains stuck for too long, apply a sequence of random rotational movements
 #         for _ in range(3):  # Perform 3 random rotations
