@@ -70,8 +70,8 @@ def loop(agent):
     lidar_data = agent.read_lidars()
 
     # Check if there are any obstacles in front of the robot
-    min_distance = min(lidar_data[:5] + lidar_data[-5:])
-    if min_distance < 0.3:  
+    min_distance = min(lidar_data[:10] + lidar_data[-10:])
+    if min_distance < 0.5:  
         # If an obstacle is detected, rotate the robot randomly
         print("Obstacle detected near...")
         random_angle = random.uniform(-math.pi/4, math.pi/4)  # Random angle between -45 and 45 degrees
@@ -79,12 +79,12 @@ def loop(agent):
         time.sleep(0.1)  # Rotate for 0.1 seconds
         # agent.change_velocity([0, 0])  # Stop the robot
         # time.sleep(0.1)  # Add a short delay before moving backward
-        print("Moving straight backwards...")
-        agent.change_velocity([-5, -5])  # Move backward
-        time.sleep(0.2)  # Move backward for 0.5 seconds
-        # print("Moving straight forward...")
-        # agent.change_velocity([5, 5])  # Move backward
+        # print("Moving straight backwards...")
+        # agent.change_velocity([-5, -5])  # Move backward
         # time.sleep(0.2)  # Move backward for 0.5 seconds
+        print("Trying moving forward...")
+        agent.change_velocity([5, 2])  # Move backward
+        time.sleep(0.2)  # Move backward for 0.5 seconds
         # if min_distance < 0.1:
         #     print("Robot got stuck somewhere...")
         #     agent.change_velocity([-5, -5])  # Move forward
