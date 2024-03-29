@@ -113,6 +113,7 @@ def loop(agent):
     # If no obstacle is detected, move forward
     print("Moving forward...")
     agent.change_velocity([5, 4])  # Move forward
+    time.sleep(0.3)
     # Define a threshold for the robot's speed
     SPEED_THRESHOLD = 0.1  # Adjust this threshold as needed
 
