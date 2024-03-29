@@ -82,9 +82,9 @@ def loop(agent):
         print("Moving straight backwards...")
         agent.change_velocity([-5, -5])  # Move backward
         time.sleep(0.2)  # Move backward for 0.5 seconds
-        print("Moving straight forward...")
-        agent.change_velocity([5, 5])  # Move backward
-        time.sleep(0.2)  # Move backward for 0.5 seconds
+        # print("Moving straight forward...")
+        # agent.change_velocity([5, 5])  # Move backward
+        # time.sleep(0.2)  # Move backward for 0.5 seconds
         # if min_distance < 0.1:
         #     print("Robot got stuck somewhere...")
         #     agent.change_velocity([-5, -5])  # Move forward
