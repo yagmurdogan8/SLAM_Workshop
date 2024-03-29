@@ -68,23 +68,24 @@ def loop(agent):
     # Example: 
     # agent.change_velocity([5, 4])
     lidar_data = agent.read_lidars()
+    print("Connection succesfull... Robot starts to move...")
 
     # Check if there are any obstacles in front of the robot
-    min_distance = min(lidar_data[:10] + lidar_data[-10:])
-    if min_distance < 0.5:  
+    min_distance = min(lidar_data[:5] + lidar_data[-5:])
+    if min_distance < 0.1:  
         # If an obstacle is detected, rotate the robot randomly
-        print("Obstacle detected near...")
-        random_angle = random.uniform(-math.pi/4, math.pi/4)  # Random angle between -45 and 45 degrees
-        agent.change_velocity([math.cos(random_angle), math.sin(random_angle)])  # Rotate the robot
-        time.sleep(0.1)  # Rotate for 0.1 seconds
+        print("Obstacle detected just in front of the robot...")
+        # random_angle = random.uniform(-math.pi/4, math.pi/4)  # Random angle between -45 and 45 degrees
+        # agent.change_velocity([math.cos(random_angle), math.sin(random_angle)])  # Rotate the robot
+        # time.sleep(0.1)  # Rotate for 0.1 seconds
         # agent.change_velocity([0, 0])  # Stop the robot
         # time.sleep(0.1)  # Add a short delay before moving backward
-        # print("Moving straight backwards...")
-        # agent.change_velocity([-5, -5])  # Move backward
+        print("Trying moving backwards with an angle to avoid the obstacle...")
+        agent.change_velocity([-5, -1])  # Move backward
+        time.sleep(0.2)  # Move backward for 0.2 seconds
+        # print("Trying moving forward...")
+        # agent.change_velocity([3, 2])  # Move backward
         # time.sleep(0.2)  # Move backward for 0.5 seconds
-        print("Trying moving forward...")
-        agent.change_velocity([5, 2])  # Move backward
-        time.sleep(0.2)  # Move backward for 0.5 seconds
         # if min_distance < 0.1:
         #     print("Robot got stuck somewhere...")
         #     agent.change_velocity([-5, -5])  # Move forward
@@ -112,7 +113,7 @@ def loop(agent):
     
     # If no obstacle is detected, move forward
     print("Moving forward...")
-    agent.change_velocity([5, 4.1])  # Move forward
+    agent.change_velocity([5, 4.05])  # Move forward
     time.sleep(0.3)
     # Define a threshold for the robot's speed
     SPEED_THRESHOLD = 0.1  # Adjust this threshold as needed
@@ -120,7 +121,7 @@ def loop(agent):
     current_speed = agent.current_speed_API()
     if abs(current_speed[0]) < SPEED_THRESHOLD and abs(current_speed[1]) < SPEED_THRESHOLD:
         # Robot speed is close to zero, indicating that it has stopped
-        print("Faced an obstacle, Moving backward...")
+        print("Faced an obstacle, Moving backwards...")
         agent.change_velocity([-5, -2])  # Move backward
         time.sleep(0.2)  # Move backward for 0.5 seconds
     
